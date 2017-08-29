@@ -2,9 +2,9 @@
 
 require_once __DIR__ . "/vendor/autoload.php";
 
-$mongo = new MongoDB\Client("mongodb://172.16.0.85:27017/");
+$manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
 
-$collection = $mongo->MarketCollector->market_data;
+//$collection = $mongo->MarketCollector->market_data;
 
 
 $pair = $_GET["pair"];
@@ -23,31 +23,23 @@ $query = "[
 }).limit('.$periods.');';
 */
 
-$where_fields =  "[
-                                'exchange' => $exchange,
-                                'pair' => $pair
-                  ],
-                  ['projection' => [
-                                    'CloseTime' => 1,
-                                    'ClosePrice' => 1
-                                    ]
-                   ]";
-                  
-$options = array(
-                        'sort' => array(
-                                        'CloseTime' => -1
-                                    ),
-                        'limit' => (int)$periods
-                    );
+$filter = [['excange' => 'bitfinex', 'pair' => 'ltcusd'], ['CloseTime' => 1, 'ClosePrice' => 1]];
 
-$cursor2 = $collection->find($where_fields, $options);
+$options = [
+                  'sort' => ['CloseTime' => -1],
+                  'limit' => (int)$periods
+];
 
-var_dump($cursor2);
+$query = new MongoDB\Driver\Query($filter, $options);
+$cursor = $manager->executeQuery('MarketCollector.market_data', $query);
 
-$results = $cursor2->toArray();
-$results_json = json_encode($results, JSON_PRETTY_PRINT);
+$result = array();
 
-print_r($results_json);
+ foreach ($cursor as $document) {
+          $result = array("CloseTime" => $document->CloseTime, "CloseValue" => $document->CloseValue);
+ }
+
+ print_r($result);
 
 
 ?>
