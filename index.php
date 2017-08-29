@@ -32,6 +32,7 @@ $where_fields = array(
                                 'ClosePrice' => 1
                         )
                    );
+                   print_r($where_fields);
 $options = array(
                         'sort' => array(
                                         'CloseTime' => -1
