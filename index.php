@@ -24,9 +24,14 @@ $query = "[
 */
 
 $where_fields = array(
-            'exchange' => $exchange,
-            'pair' => $pair
-        );
+                        array(
+                                'exchange' => $exchange,
+                                'pair' => $pair
+                        ), array(
+                                'CloseTime' => 1,
+                                'ClosePrice' => 1
+                        )
+                   );
 $options = array(
                         'sort' => array(
                                         'CloseTime' => -1
@@ -40,7 +45,7 @@ $cursor2 = $collection->find($where_fields, $options);
 $results = $cursor2->toArray();
 $results_json = json_encode($results, JSON_PRETTY_PRINT);
 
-print_r($results_json);
+var_dump($results_json);
 
 
 ?>
