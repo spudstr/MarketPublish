@@ -23,18 +23,18 @@ $query = "[
 }).limit('.$periods.');';
 */
 
-
-$cursor2 = $collection->find(array(
+$where_fields = array(
             "exchange"=>".$exchange.",
             "pair" => ".$pair."
-        ),
-        array(
-                                "sort" => array(
-                                                "CloseTime" => -1
-                                            ),
-                                "limit" => (int)$periods
-                            )
-    );
+        );
+$options = array(
+                        "sort" => array(
+                                        "CloseTime" => -1
+                                    ),
+                        "limit" => (int)$periods
+                    );
+
+$cursor2 = $collection->find($where_fields, $options);
 
 
 $results = $cursor2->toArray();
