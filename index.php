@@ -32,7 +32,7 @@ $cursor2 = $collection->find(array(
                                 "sort" => array(
                                                 "CloseTime" => -1
                                             ),
-                                "limit" => ".$periods.'"
+                                "limit" => $periods
 
                             )
     );
