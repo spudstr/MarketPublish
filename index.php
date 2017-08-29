@@ -44,12 +44,11 @@ $cursor = $manager->executeQuery('MarketCollector.market_data', $query);
 $result = array();
 
  foreach ($cursor as $document) {
-        echo $document->CloseValue . "<br>";
-          
+      var_dump($document);
+
 
  }
 
-var_dump($result);
 
 
 ?>
