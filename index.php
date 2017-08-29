@@ -30,10 +30,6 @@ $filter = array(
     "pair" => $pair
 );
 $options = array(
-    "projection" => array(
-        "CloseTime" => 1,
-        "CloseValue" => 1,
-    ),
     "sort" => array(
         "CloseTime" => -1,
     )
