@@ -24,8 +24,8 @@ $query = "[
 */
 
 $where_fields = array(
-            "exchange"=>".$exchange.",
-            "pair" => ".$pair."
+            'exchange' => $exchange,
+            'pair' => $pair
         );
 $options = array(
                         "sort" => array(
