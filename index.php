@@ -27,7 +27,7 @@ $where_fields = array(
                         array(
                                 'exchange' => $exchange,
                                 'pair' => $pair
-                        ), array(
+            ), 'projection' => array(
                                 'CloseTime' => 1,
                                 'ClosePrice' => 1
                         )
