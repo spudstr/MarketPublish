@@ -23,16 +23,16 @@ $query = "[
 }).limit('.$periods.');';
 */
 
-$where_fields = array(
-                        array(
+$where_fields =  "[
                                 'exchange' => $exchange,
                                 'pair' => $pair
-            ), 'projection' => array(
-                                'CloseTime' => 1,
-                                'ClosePrice' => 1
-                        )
-                   );
-                   print_r($where_fields);
+                  ],
+                  ['projection' => [
+                                    'CloseTime' => 1,
+                                    'ClosePrice' => 1
+                                    ]
+                   ]";
+                  
 $options = array(
                         'sort' => array(
                                         'CloseTime' => -1
