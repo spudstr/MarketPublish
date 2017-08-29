@@ -37,8 +37,8 @@ $cursor2 = $collection->find(array(
     );
 
 
-
-print_r($cursor2->toArray());
+$results = $cursor2->toArray();
+print_r($results);
 
 
 ?>
