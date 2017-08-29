@@ -38,7 +38,7 @@ $options = [
                   'limit' => (int)$periods
 ];
 
-$query = new MongoDB\Driver\Query($filter, $options);
+//$query = new MongoDB\Driver\Query($filter, $options);
 $cursor = $manager->executeQuery('MarketCollector.market_data', $query);
 
 $result = array();
