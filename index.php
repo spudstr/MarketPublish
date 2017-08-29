@@ -28,13 +28,13 @@ $where_fields = array(
             'pair' => $pair
         );
 $options = array(
-                        "sort" => array(
-                                        "CloseTime" => -1
+                        'sort' => array(
+                                        'CloseTime' => -1
                                     ),
-                        "limit" => (int)$periods
+                        'limit' => (int)$periods
                     );
 
-$cursor2 = $collection->find($where_fields);
+$cursor2 = $collection->find($where_fields, $options);
 
 
 $results = $cursor2->toArray();
