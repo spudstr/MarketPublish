@@ -36,7 +36,8 @@ $cursor = $manager->executeQuery('MarketCollector.market_data', $query);
 $result = array();
 
  foreach ($cursor as $document) {
-          $result = array("CloseTime" => $document->CloseTime, "CloseValue" => $document->CloseValue);
+          $result[] = array("CloseTime" => $document->CloseTime, "CloseValue" => $document->CloseValue);
+          
  }
 
  print_r($result);
