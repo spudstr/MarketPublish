@@ -41,6 +41,7 @@ $options = array(
 
 $cursor2 = $collection->find($where_fields, $options);
 
+var_dump($cursor2);
 
 $results = $cursor2->toArray();
 $results_json = json_encode($results, JSON_PRETTY_PRINT);
