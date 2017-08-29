@@ -6,6 +6,14 @@ $manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
 
 //$collection = $mongo->MarketCollector->market_data;
 
+/* success, error messages to be displayed */
+
+ $messages = array(
+  1=>'Record deleted successfully',
+  2=>'Error occurred. Please try again',
+  3=>'Record saved successfully',
+  4=>'Record updated successfully',
+  5=>'All fields are required' );
 
 $pair = $_GET["pair"];
 $exchange = $_GET["exchange"];
@@ -41,7 +49,7 @@ $result = array();
 
  }
 
- print_r($result);
+var_dump($result);
 
 
 ?>
