@@ -11,15 +11,33 @@ $pair = $_GET["pair"];
 $exchange = $_GET["exchange"];
 $periods = $_GET["periods"];
 
-
-$query = '({
-    "exchange": "'.$exchange.'",
-    "pair": "'.$pair.'"
+/*
+$query = "[
+            'exchange' => '.$exchange.',
+            'pair' => '.$pair.'
+        ][
+            'sort' >= ['CloseTime' => -1]
+        ]
 }).sort({
     "CloseTime": -1
 }).limit('.$periods.');';
+*/
 
-$cursor2 = $collection->find($query);
+
+$cursor2 = $collection->find(array(
+            "exchange"=>".$exchange.",
+            "pair" => ".$pair."
+        ),
+        array(
+                                "sort" => array(
+                                                "CloseTime" => "-1"
+                                            ),
+                                "limit" => ".$periods.'"
+
+                            )
+    );
+
+
 
 print_r($cursor2);
 
