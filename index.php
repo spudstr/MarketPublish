@@ -34,7 +34,7 @@ $options = array(
                         "limit" => (int)$periods
                     );
 
-$cursor2 = $collection->find($where_fields, $options);
+$cursor2 = $collection->find($where_fields);
 
 
 $results = $cursor2->toArray();
