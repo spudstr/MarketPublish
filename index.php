@@ -36,8 +36,8 @@ $options = array(
     ),
     "sort" => array(
         "CloseTime" => -1,
-    ),
-    "limit" => $periods
+    )
+
 );
 
 $readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
