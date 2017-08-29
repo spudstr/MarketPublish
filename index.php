@@ -46,7 +46,7 @@ $manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
 $result = $manager->executeQuery("MarketCollector.market_data", $query, $readPreference);
 
 foreach($result as $document) {
-    echo $document["CloseValue"], "<Br>";
+    print_r($document);
 }
 
 
