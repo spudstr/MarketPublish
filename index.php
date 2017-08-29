@@ -2,22 +2,14 @@
 
 require_once __DIR__ . "/vendor/autoload.php";
 
-$manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
+//$manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
 
-//$collection = $mongo->MarketCollector->market_data;
-
-/* success, error messages to be displayed */
-
- $messages = array(
-  1=>'Record deleted successfully',
-  2=>'Error occurred. Please try again',
-  3=>'Record saved successfully',
-  4=>'Record updated successfully',
-  5=>'All fields are required' );
 
 $pair = $_GET["pair"];
 $exchange = $_GET["exchange"];
 $periods = $_GET["periods"];
+
+
 
 /*
 $query = "[
@@ -33,21 +25,31 @@ $query = "[
 
 $filter = [['excange' => 'bitfinex', 'pair' => 'ltcusd'], ['CloseTime' => 1, 'ClosePrice' => 1]];
 
-$options = [
-                  'sort' => ['CloseTime' => -1],
-                  'limit' => (int)$periods
-];
+$filter = array(
+    "excange" => $exchange,
+    "pair" => $pair
+);
+$options = array(
+    "projection" => array(
+        "CloseTime" => 1,
+        "CloseValue" => 1,
+    ),
+    "sort" => array(
+        "CloseTime" => -1,
+    ),
+    "limit" => $periods
+);
 
-//$query = new MongoDB\Driver\Query($filter, $options);
-$cursor = $manager->executeQuery('MarketCollector.market_data', $query);
+$readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
+$query = new MongoDB\Driver\Query($filter, $options);
+$manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
+$result = $manager->executeQuery("MarketCollector.market_data", $query, $readPreference);
 
-$result = array();
+foreach($result as $document) {
+    echo $document["CloseValue"], "<Br>";
+}
 
- foreach ($cursor as $document) {
-      var_dump($document);
 
-
- }
 
 
 
