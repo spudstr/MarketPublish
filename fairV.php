@@ -45,7 +45,8 @@ $cursor = $manager->executeCommand('MarketCollector',$query);
 
 
 foreach ($cursor as $document) {
-    var_dump($document);
+    print_r($document);
+    echo "<Br>";
 }
 
 
