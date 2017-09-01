@@ -14,7 +14,7 @@ $periods = $_GET["periods"];
 $aggregateQuery = '[
 [
   $match => [
-    pair => \'LTCUSD\'
+    pair => "TCUSD"
   ]
 ],
 [
@@ -81,7 +81,7 @@ $aggregateQuery = '[
 ],
 [
   $limit => 500
-],
+]
 ]';
 
 
