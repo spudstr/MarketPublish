@@ -42,10 +42,9 @@ $query = new MongoDB\Driver\Command([
 ]);
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
-foreach ($cursor as $document) {
-  var_dump($document);
-}
+$data = $manager->toArray($cursor);
 
+print_r($data);
 
 
 
