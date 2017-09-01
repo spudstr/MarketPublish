@@ -89,6 +89,7 @@ $aggregateQuery = '[
 },
 ]';
 
+$AgArray = json_decode($aggregateQuery);
 
 
 
@@ -97,7 +98,7 @@ $readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreferenc
 $query = new MongoDB\Driver\Query($filter, $options);
 $manager = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017/");
 //$result = $manager->executeQuery("MarketCollector.market_data", $query, $readPreference);
-$agg = $manager->MarketCollector->Bitfinex_ticker->aggregate($aggregateQuery);
+$agg = $manager->MarketCollector->Bitfinex_ticker->aggregate($AgArray);
 var_dump($agg);
 
 
