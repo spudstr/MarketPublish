@@ -49,7 +49,8 @@ $dataArray[] = array();
   foreach ($cursor as $data)
   {
          $dataArray["result"][$periods][] = array($data->TopAsk,$data->TopBid,$data->FairV);
-         var_dump($data);
+         $temp_array = $data->timestamp;
+         var_dump($temp_array);
          echo "<br>";
   }
 
