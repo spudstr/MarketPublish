@@ -43,7 +43,12 @@ $query = new MongoDB\Driver\Command([
 ]);
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
-print_r($cursor);
+
+foreach ($cursor as $document) {
+  $zdata = (array)$document;
+    print_r($zdata);
+  //  echo "<Br>";
+}
 
 
 ?>
