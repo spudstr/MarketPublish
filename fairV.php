@@ -11,78 +11,81 @@ $periods = $_GET["periods"];
 
 
 
-$aggregateQuery = '[
-[
-  $match => [
-    pair => "TCUSD"
-  ]
-],
-[
-  $group => [
-    "_id" => [
-      "year" => [
-        "$year" => "$timestamp"
-      ],
-      "month"=> [
-        "$month" => "$timestamp"
-      ],
-      "day" => [
-        "$dayOfMonth" => "$timestamp"
-      ],
-      "day2" => [
-        "$dayOfYear" => "$timestamp"
-      ],
-      "hour" => [
-        "$hour" => "$timestamp"
-      ],
-      "minute_interval" => [
-        "$subtract" => [[
-            "$minute" => "$timestamp"
+$aggregateQuery = '
+["aggregate" => "bitfinex_ticker"],
+"pipeline" =>
+  [
+    [
+      $match => [
+        pair => "LTCUSD"
+      ]
+    ],
+    [
+      $group => [
+        "_id" => [
+          "year" => [
+            "$year" => "$timestamp"
           ],
-          [
-            "$mod"=> [[
-              "$minute" => "$timestamp"
-            ], 1]
+          "month" => [
+            "$month" => "$timestamp"
+          ],
+          "day" => [
+            "$dayOfMonth" => "$timestamp"
+          ],
+          "day2" => [
+            "$dayOfYear" => "$timestamp"
+          ],
+          "hour" => [
+            "$hour" => "$timestamp"
+          ],
+          "minute_interval" => [
+            "$subtract" => [[
+                "$minute" => "$timestamp"
+              ],
+              [
+                "$mod" => [[
+                  "$minute" => "$timestamp"
+                ], 1]
+              ]
+            ]
           ]
+        ],
+        "TopAsk" => [
+          "$min" => "$ASK"
+        ],
+        "TopBid" => [
+          "$max" => "$BID"
+        ],
+        "timestamp" => [
+          "$first" => "$timestamp"
         ]
       ]
     ],
-    "TopAsk" => [
-      "$min" => "$ASK"
+    [
+      $project => [
+        _id => 0,
+        TopAsk => 1,
+        TopBid => 1,
+        ASK => 1,
+        BID => 1,
+        FairV => [
+          $divide => [[
+            $add => ["$TopAsk", "$TopBid"]
+          ], 2]
+        ],
+        timestamp => 1,
+        tz => 1
+      ]
     ],
-    "TopBid" => [
-      "$max" => "$BID"
+    [
+      $sort => [
+        timestamp => -1
+      ]
     ],
-    "timestamp" => [
-      "$first" => "$timestamp"
-    ]
-  ]
-],
-[
-  $project => [
-    _id => 0,
-    TopAs k=> 1,
-    TopBid => 1,
-    ASK => 1,
-    BID => 1,
-    FairV=> [
-      $divide=> [[
-        $add => ["$TopAsk", "$TopBid"]
-      ], 2]
+    [
+      $limit => 500
     ],
-    timestamp => 1,
-    tz => 1
-  ]
-],
-[
-  $sort=> [
-    timestamp => -1
-  ]
-],
-[
-  $limit => 500
-]
-]';
+  ]';
 
 
 //print_r($aggregateQuery);
@@ -98,11 +101,11 @@ $query = new MongoDB\Driver\Command($aggregateQuery);
 $result = $manager->executeQuery("MarketCollector.bitfinex_ticker", $query, $readPreference);
 */
 
-$client = new MongoDB\Client("mongodb://127.0.0.1:27017/");
-$database = $client->selectDatabase("MarketCollector.bitfinex_ticker");
-$cursor = $database->command($aggregateQuery);
-
-$result = $cursor->toArray()[0];
+$readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
+//$query = new MongoDB\Driver\Query($filter, $options);
+$manager = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017/");
+$query = new MongoDB\Driver\Command($aggregateQuery);
+$cursor = $manager->executeCommand('bitfinex_ticker',$query);
 
 var_dump($result);
 
