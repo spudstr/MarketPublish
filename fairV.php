@@ -44,13 +44,16 @@ $query = new MongoDB\Driver\Command([
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
 $final = array();
-foreach ($cursor as $document) {
-  $zdata = (array)$document;
-  array_push($final,$zdata);
-//    print_r($zdata);
-  //  echo "<Br>";
-}
+$dataArray[] = array();
 
-echo json_encode($final,JSON_PRETTY_PRINT);
+  foreach ($cursor as $data)
+  {
+         $dataArray["result"][$periods][] = array($data->TopAsk,$data->TopBid,$data->FairV);
+         var_dump($data);
+         echo "<br>";
+  }
+
+
+//echo json_encode($final,JSON_PRETTY_PRINT);
 
 ?>
