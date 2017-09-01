@@ -12,13 +12,11 @@ $periods = $_GET["periods"];
 
 
 $aggregateQuery = '[
-// Stage 1
 {
   $match: {
     pair: \'LTCUSD\'
   }
 },
-// Stage 2
 {
   $group: {
     "_id": {
@@ -82,7 +80,6 @@ $aggregateQuery = '[
     timestamp: -1
   }
 },
-// Stage 5
 {
   $limit: 500
 },
