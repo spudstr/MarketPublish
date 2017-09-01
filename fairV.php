@@ -90,12 +90,14 @@ $aggregateQuery = '[
 
 
 
-$readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
+//$readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
 //$query = new MongoDB\Driver\Query($filter, $options);
-$manager = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017/");
+$client = new MongoDB\Driver\Client("mongodb://127.0.0.1:27017/");
+$collection = $client->selectCollection('MarketCollector.Bitfinex_ticker');
+$cursor = $collection->aggregate($aggregateQuery);
 //$result = $manager->executeQuery("MarketCollector.market_data", $query, $readPreference);
-$agg = $manager->MarketCollector->Bitfinex_ticker->aggregate($aggregateQuery);
-var_dump($agg);
+
+var_dump($cursor);
 
 
 
