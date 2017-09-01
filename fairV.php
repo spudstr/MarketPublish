@@ -43,8 +43,7 @@ $query = new MongoDB\Driver\Command([
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
 foreach ($cursor as $data) {
-  $data2 = $data->toArray()[0];
-  print_r($data2);
+  print_r($data);
 }
 
 
