@@ -5,12 +5,12 @@ header('Content-Type: application/json');
 //$manager = new MongoDB\Driver\Manager("mongodb://172.16.0.85:27017/");
 
 
-$pair = $_GET["pair"];
-$exchange = $_GET["exchange"];
+$pair = strtolower($_GET["pair"]);
+$exchange = strtolower($_GET["exchange"]);
 $periods = $_GET["periods"];
 
 
-
+if($exchange == "coinbase") { $exchange = "gdax"; }
 /*
 $query = "[
             'exchange' => '.$exchange.',
@@ -23,28 +23,54 @@ $query = "[
 }).limit('.$periods.');';
 */
 
-$filter = [['excange' => 'bitfinex', 'pair' => 'ltcusd'], ['CloseTime' => 1, 'ClosePrice' => 1]];
+//$filter = [['excange' => 'bitfinex', 'pair' => 'ltcusd'], ['CloseTime' => 1, 'ClosePrice' => 1]];
 
-$filter = array(
-    "excange" => $exchange,
-    "pair" => $pair
+$filter =array(
+    "exchange" => $exchange,
+     "pair" => $pair
 );
-$options = array(
 
+
+$options = array(
+    "projection" => array(
+                       "CloseTime" => 1,
+                       "ClosePrice" => 1,
+                       "_id" => -1
+                       ),
     "sort" => array(
         "CloseTime" => -1,
-    )
+    ),
+    "limit" => (int)$periods
+  );
 
-);
+  try {
+  $manager     =   new MongoDB\Driver\Manager("mongodb://localhost:27017");
+  $query = new MongoDB\Driver\Query($filter,$options);
 
-$readPreference = new MongoDB\Driver\ReadPreference(MongoDB\Driver\ReadPreference::RP_PRIMARY);
-$query = new MongoDB\Driver\Query($filter, $options);
-$manager = new MongoDB\Driver\Manager("mongodb://127.0.0.1:27017/");
-$result = $manager->executeQuery("MarketCollector.market_data", $query, $readPreference);
+  $cursor = $manager->executeQuery('MarketCollector.market_data', $query);
+  $dataArray = array();
+  $dataArray[] = array();
+  foreach ($cursor as $data)
+  {
+         $dataArray["result"][$periods][] = array($data->CloseTime,$data->ClosePrice);
+  }
+  } catch (MongoDB\Driver\Exception\Exception $e) {
+      $filename = basename(__FILE__);
 
-foreach($result as $document) {
-    print_r($document);
-}
+      echo "The $filename script has experienced an error.\n";
+      echo "It failed with the following exception:\n";
+
+      echo "Exception:", $e->getMessage(), "\n";
+      echo "In file:", $e->getFile(), "\n";
+      echo "On line:", $e->getLine(), "\n";
+   }
+
+
+
+  $reverseArray = array_reverse($dataArray,true);
+
+  $json_array = json_encode($reverseArray, JSON_PRETTY_PRINT);
+  print_r($json_array);
 
 
 
