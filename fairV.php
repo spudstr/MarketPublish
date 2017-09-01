@@ -84,9 +84,8 @@ $aggregateQuery = '[
 ],
 ]';
 
-$AgArray = json_decode($aggregateQuery);
 
-print_r($AgArray);
+print_r($aggregateQuery);
 die;
 
 
