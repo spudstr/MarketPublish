@@ -12,77 +12,76 @@ $periods = $_GET["periods"];
 
 
 $aggregateQuery = '[
-{
-  $match: {
-    pair: \'LTCUSD\'
-  }
-},
-{
-  $group: {
-    "_id": {
-      "year": {
-        "$year": "$timestamp"
-      },
-      "month": {
-        "$month": "$timestamp"
-      },
-      "day": {
-        "$dayOfMonth": "$timestamp"
-      },
-      "day2": {
-        "$dayOfYear": "$timestamp"
-      },
-      "hour": {
-        "$hour": "$timestamp"
-      },
-      "minute_interval": {
-        "$subtract": [{
-            "$minute": "$timestamp"
-          },
-          {
-            "$mod": [{
-              "$minute": "$timestamp"
-            }, 1]
-          }
+[
+  $match => [
+    pair => \'LTCUSD\'
+  ]
+],
+[
+  $group => [
+    "_id" => [
+      "year" => [
+        "$year" => "$timestamp"
+      ],
+      "month"=> [
+        "$month" => "$timestamp"
+      ],
+      "day" => [
+        "$dayOfMonth" => "$timestamp"
+      ],
+      "day2" => [
+        "$dayOfYear" => "$timestamp"
+      ],
+      "hour" => [
+        "$hour" => "$timestamp"
+      ],
+      "minute_interval" => [
+        "$subtract" => [[
+            "$minute" => "$timestamp"
+          ],
+          [
+            "$mod"=> [[
+              "$minute" => "$timestamp"
+            ], 1]
+          ]
         ]
-      }
-    },
-    "TopAsk": {
-      "$min": "$ASK"
-    },
-    "TopBid": {
-      "$max": "$BID"
-    },
-    "timestamp": {
-      "$first": "$timestamp"
-    }
-  }
-},
-{
-  $project: {
-    _id: 0,
-    TopAsk: 1,
-    TopBid: 1,
-    ASK: 1,
-    BID: 1,
-    FairV: {
-      $divide: [{
-        $add: ["$TopAsk", "$TopBid"]
-      }, 2]
-    },
-    timestamp: 1,
-    tz: 1
-  }
-},
-// Stage 4
-{
-  $sort: {
-    timestamp: -1
-  }
-},
-{
-  $limit: 500
-},
+      ]
+    ],
+    "TopAsk" => [
+      "$min" => "$ASK"
+    ],
+    "TopBid" => [
+      "$max" => "$BID"
+    ],
+    "timestamp" => [
+      "$first" => "$timestamp"
+    ]
+  ]
+],
+[
+  $project => [
+    _id => 0,
+    TopAs k=> 1,
+    TopBid => 1,
+    ASK => 1,
+    BID => 1,
+    FairV=> [
+      $divide=> [[
+        $add => ["$TopAsk", "$TopBid"]
+      ], 2]
+    ],
+    timestamp => 1,
+    tz => 1
+  ]
+],
+[
+  $sort=> [
+    timestamp => -1
+  ]
+],
+[
+  $limit => 500
+],
 ]';
 
 $AgArray = json_decode($aggregateQuery);
