@@ -51,6 +51,6 @@ foreach ($cursor as $document) {
   //  echo "<Br>";
 }
 
-echo json_encode($final,true);
+echo json_encode($final,JSON_PRETTY_PRINT);
 
 ?>
