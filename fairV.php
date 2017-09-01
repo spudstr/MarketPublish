@@ -43,11 +43,11 @@ $query = new MongoDB\Driver\Command([
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
 
-
-foreach ($cursor as $k => $data) {
-  echo json_encode($data);
-
+$result = Array();
+foreach ($cursor as $entry) {
+    array_push($result, $entry);
 }
+echo json_encode($result, true);
 
 
 ?>
