@@ -60,7 +60,6 @@ $aggregateQuery = '[
     }
   }
 },
-// Stage 3
 {
   $project: {
     _id: 0,
@@ -91,6 +90,8 @@ $aggregateQuery = '[
 
 $AgArray = json_decode($aggregateQuery);
 
+print_r($AgArray);
+die;
 
 
 
