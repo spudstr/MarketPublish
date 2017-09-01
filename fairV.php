@@ -38,13 +38,14 @@ $query = new MongoDB\Driver\Command([
     ['$project' => ['_id' => 0,'TopAsk' => 1,'TopBid' => 1,'ASK' => 1,'BID' => 1,'FairV' => ['$divide' => [['$add' => ['$TopAsk', '$TopBid']], 2]],'timestamp' => 1,'tz' => 1]],
     ['$sort' => ['timestamp' => -1]],
     ['$limit' => 500]
-  ]
+  ],
+  'cursor' => new stdClass,
 ]);
 $cursor = $manager->executeCommand('MarketCollector',$query);
 
 
-foreach($cursor as $document) {
-    print_r($document);
+foreach ($cursor as $document) {
+    var_dump($document);
 }
 
 
