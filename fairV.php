@@ -42,7 +42,9 @@ $query = new MongoDB\Driver\Command([
 ]);
 $cursor = $manager->executeCommand('bitfinex_ticker',$query);
 
-var_dump($cursor);
+$data = $cursor->toArray();
+
+print_r($data);
 
 
 
