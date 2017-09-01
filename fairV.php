@@ -40,7 +40,7 @@ $query = new MongoDB\Driver\Command([
     ['$limit' => 500]
   ]
 ]);
-$cursor = $manager->executeCommand('bitfinex_ticker',$query);
+$cursor = $manager->executeCommand('MarketCollector',$query);
 
 foreach ($cursor as $document) {
   var_dump($document);
