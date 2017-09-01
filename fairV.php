@@ -44,7 +44,7 @@ $cursor = $manager->executeCommand('bitfinex_ticker',$query);
 
 $data = $cursor->toArray()[0];
 
-var_dump($cursor);
+var_dump($data);
 
 
 
