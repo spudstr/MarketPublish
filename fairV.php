@@ -52,7 +52,7 @@ $dataArray = array();
          $tmpObject = $data->timestamp;
           $ts = get_object_vars($tmpObject);
 
-         $dataArray["result"][$periods][] = array('TopAsk' => $data->TopAsk,'TopBid' => $data->TopBid,"FairValue" => $data->FairV,'Timestamp' => (int)$ts["milliseconds"]);
+         $dataArray["result"][$periods][] = array('TopAsk' => $data->TopAsk,'TopBid' => $data->TopBid,"FairValue" => $data->FairV,'Timestamp' => (int)$ts["milliseconds"],'PAIR'=> $pair);
 
 
   }
