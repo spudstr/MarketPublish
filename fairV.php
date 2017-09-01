@@ -85,7 +85,7 @@ $aggregateQuery = '[
 ]';
 
 
-print_r($aggregateQuery);
+//print_r($aggregateQuery);
 
 
 
