@@ -46,7 +46,7 @@ $cursor = $manager->executeCommand('MarketCollector',$query);
 $final = array();
 foreach ($cursor as $document) {
   $zdata = (array)$document;
-  push_array($final,$zdata);
+  array_push($final,$zdata);
 //    print_r($zdata);
   //  echo "<Br>";
 }
